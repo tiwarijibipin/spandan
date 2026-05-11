@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 
 function AuthPage() {
-  const [step, setStep] = useState('role') // 'role' | 'auth'
-  const [selectedRole, setSelectedRole] = useState('')
+  const [step, setStep] = useState('auth') // 'auth' | 'role'
   const [isLogin, setIsLogin] = useState(true)
   const [formData, setFormData] = useState({
     name: '',
@@ -10,14 +9,14 @@ function AuthPage() {
     password: ''
   })
 
-  const handleRoleSelect = (role) => {
-    setSelectedRole(role)
-    setStep('auth')
+  const handleAuthSubmit = (e) => {
+    e.preventDefault()
+    // Simulate successful auth, move to role selection
+    setStep('role')
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    alert(`${isLogin ? 'Login' : 'Sign Up'} as ${selectedRole} - Coming soon!`)
+  const handleRoleSelect = (role) => {
+    alert(`${role === 'teacher' ? 'Teacher' : 'Student'} flow coming soon!`)
   }
 
   return (
@@ -60,7 +59,215 @@ function AuthPage() {
         justifyContent: 'center',
         padding: '20px'
       }}>
-        {/* Role Selection Cards */}
+        {/* Auth Form - First Step */}
+        {step === 'auth' && (
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            padding: '40px',
+            maxWidth: '450px',
+            width: '100%',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)',
+            animation: 'fadeInUp 0.5s ease-out'
+          }}>
+            {/* Logo and Title */}
+            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+              <div style={{
+                width: '70px',
+                height: '70px',
+                background: 'linear-gradient(135deg, #1e40af, #3b82f6)',
+                borderRadius: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px',
+                boxShadow: '0 15px 35px rgba(30, 64, 175, 0.25)'
+              }}>
+                <span style={{ fontSize: '35px' }}>✨</span>
+              </div>
+              <h1 style={{
+                fontSize: '32px',
+                fontWeight: '700',
+                color: '#1f2937',
+                marginBottom: '8px'
+              }}>
+                Spandan
+              </h1>
+              <p style={{
+                fontSize: '16px',
+                color: '#6b7280'
+              }}>
+                Poll Question Generator
+              </p>
+            </div>
+
+            {/* Form Header */}
+            <h2 style={{
+              fontSize: '26px',
+              fontWeight: '700',
+              color: '#1f2937',
+              textAlign: 'center',
+              marginBottom: '8px'
+            }}>
+              {isLogin ? 'Welcome Back' : 'Create Account'}
+            </h2>
+            <p style={{
+              color: '#6b7280',
+              textAlign: 'center',
+              marginBottom: '30px',
+              fontSize: '14px'
+            }}>
+              {isLogin ? 'Sign in to continue' : 'Join Spandan today'}
+            </p>
+
+            <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              {!isLogin && (
+                <div>
+                  <label style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    color: '#374151',
+                    marginBottom: '8px'
+                  }}>
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px',
+                      fontSize: '16px',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '12px',
+                      outline: 'none',
+                      transition: 'border-color 0.3s'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                    onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                  />
+                </div>
+              )}
+
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  color: '#374151',
+                  marginBottom: '8px'
+                }}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    fontSize: '16px',
+                    border: '2px solid #e5e7eb',
+                    borderRadius: '12px',
+                    outline: 'none',
+                    transition: 'border-color 0.3s'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                />
+              </div>
+
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  color: '#374151',
+                  marginBottom: '8px'
+                }}>
+                  Password
+                </label>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    fontSize: '16px',
+                    border: '2px solid #e5e7eb',
+                    borderRadius: '12px',
+                    outline: 'none',
+                    transition: 'border-color 0.3s'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
+                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+                />
+              </div>
+
+              <button
+                type="submit"
+                style={{
+                  width: '100%',
+                  padding: '16px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  color: 'white',
+                  background: 'linear-gradient(135deg, #1e40af, #3b82f6)',
+                  border: 'none',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  boxShadow: '0 4px 15px rgba(30, 64, 175, 0.3)',
+                  marginTop: '8px'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = 'translateY(-2px)'
+                  e.target.style.boxShadow = '0 6px 20px rgba(30, 64, 175, 0.4)'
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 4px 15px rgba(30, 64, 175, 0.3)'
+                }}
+              >
+                {isLogin ? 'Sign In' : 'Create Account'}
+              </button>
+            </form>
+
+            <div style={{ marginTop: '24px', textAlign: 'center' }}>
+              <p style={{ color: '#6b7280', fontSize: '14px' }}>
+                {isLogin ? "Don't have an account? " : 'Already have an account? '}
+                <button
+                  onClick={() => setIsLogin(!isLogin)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#1e40af',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  {isLogin ? 'Sign Up' : 'Sign In'}
+                </button>
+              </p>
+            </div>
+
+            {/* Footer */}
+            <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #e5e7eb', textAlign: 'center' }}>
+              <p style={{ color: '#9ca3af', fontSize: '13px' }}>
+                By Rohit Sharma | Built by Spandan_Astra ⭐
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Role Selection - Second Step */}
         {step === 'role' && (
           <div style={{
             textAlign: 'center',
@@ -84,18 +291,18 @@ function AuthPage() {
                 <span style={{ fontSize: '40px' }}>✨</span>
               </div>
               <h1 style={{
-                fontSize: '42px',
+                fontSize: '36px',
                 fontWeight: '700',
                 color: '#1e3c72',
                 marginBottom: '10px'
               }}>
-                Spandan
+                Choose Your Role
               </h1>
               <p style={{
                 fontSize: '18px',
                 color: '#6b7280'
               }}>
-                Poll Question Generator
+                How will you be using Spandan?
               </p>
             </div>
 
@@ -305,210 +512,6 @@ function AuthPage() {
             }}>
               You can change your role later in account settings
             </p>
-          </div>
-        )}
-
-        {/* Auth Form */}
-        {step === 'auth' && (
-          <div style={{
-            background: 'white',
-            borderRadius: '24px',
-            padding: '40px',
-            maxWidth: '450px',
-            width: '100%',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)',
-            animation: 'fadeInUp 0.5s ease-out'
-          }}>
-            {/* Back button */}
-            <button
-              onClick={() => setStep('role')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#6b7280',
-                cursor: 'pointer',
-                fontSize: '14px',
-                marginBottom: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
-              }}
-            >
-              ← Back to role selection
-            </button>
-
-            {/* Role badge */}
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: selectedRole === 'teacher' ? '#eff6ff' : '#ecfdf5',
-              color: selectedRole === 'teacher' ? '#1e40af' : '#059669',
-              padding: '8px 16px',
-              borderRadius: '20px',
-              fontSize: '14px',
-              fontWeight: '500',
-              marginBottom: '20px'
-            }}>
-              <span>{selectedRole === 'teacher' ? '👨‍🏫' : '👨‍🎓'}</span>
-              <span style={{ textTransform: 'capitalize' }}>{selectedRole}</span>
-            </div>
-
-            {/* Form Header */}
-            <h2 style={{
-              fontSize: '28px',
-              fontWeight: '700',
-              color: '#1f2937',
-              marginBottom: '8px'
-            }}>
-              {isLogin ? 'Welcome Back' : 'Create Account'}
-            </h2>
-            <p style={{
-              color: '#6b7280',
-              marginBottom: '30px'
-            }}>
-              {isLogin 
-                ? `Sign in to continue as ${selectedRole}` 
-                : `Join Spandan as a ${selectedRole}`}
-            </p>
-
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {!isLogin && (
-                <div>
-                  <label style={{
-                    display: 'block',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    color: '#374151',
-                    marginBottom: '8px'
-                  }}>
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      fontSize: '16px',
-                      border: '2px solid #e5e7eb',
-                      borderRadius: '12px',
-                      outline: 'none',
-                      transition: 'border-color 0.3s'
-                    }}
-                    onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                    onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                  />
-                </div>
-              )}
-
-              <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: '#374151',
-                  marginBottom: '8px'
-                }}>
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '14px 16px',
-                    fontSize: '16px',
-                    border: '2px solid #e5e7eb',
-                    borderRadius: '12px',
-                    outline: 'none',
-                    transition: 'border-color 0.3s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                />
-              </div>
-
-              <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: '#374151',
-                  marginBottom: '8px'
-                }}>
-                  Password
-                </label>
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '14px 16px',
-                    fontSize: '16px',
-                    border: '2px solid #e5e7eb',
-                    borderRadius: '12px',
-                    outline: 'none',
-                    transition: 'border-color 0.3s'
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                  onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
-                />
-              </div>
-
-              <button
-                type="submit"
-                style={{
-                  width: '100%',
-                  padding: '16px',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  color: 'white',
-                  background: 'linear-gradient(135deg, #1e40af, #3b82f6)',
-                  border: 'none',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s',
-                  boxShadow: '0 4px 15px rgba(30, 64, 175, 0.3)',
-                  marginTop: '8px'
-                }}
-                onMouseOver={(e) => {
-                  e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 6px 20px rgba(30, 64, 175, 0.4)'
-                }}
-                onMouseOut={(e) => {
-                  e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 15px rgba(30, 64, 175, 0.3)'
-                }}
-              >
-                {isLogin ? 'Sign In' : 'Create Account'}
-              </button>
-            </form>
-
-            <div style={{ marginTop: '24px', textAlign: 'center' }}>
-              <p style={{ color: '#6b7280', fontSize: '14px' }}>
-                {isLogin ? "Don't have an account? " : 'Already have an account? '}
-                <button
-                  onClick={() => setIsLogin(!isLogin)}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#1e40af',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    fontSize: '14px'
-                  }}
-                >
-                  {isLogin ? 'Sign Up' : 'Sign In'}
-                </button>
-              </p>
-            </div>
           </div>
         )}
       </div>
