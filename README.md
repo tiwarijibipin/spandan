@@ -1,21 +1,34 @@
-# spandan.fun
+# Spandan - Poll Question Generator
 
-Website hosting configuration for spandan.fun
+Version 0.1 - Project Scaffold & Monorepo Initialization
+
+## Tech Stack
+
+- **Frontend:** React + Vite + TailwindCSS + Zustand
+- **Backend:** Node.js + Express + Socket.IO + MongoDB
+- **Authentication:** JWT
+
+## Quick Start
+
+```bash
+# Install all dependencies
+npm run install:all
+
+# Run development (both frontend and backend)
+npm run dev
+
+# Build frontend
+npm run build
+```
 
 ## Structure
 
-- `nginx/spandan.fun.conf` — Nginx site configuration
-- `html/` — HTML pages
-- `html/index.html` — Main page (spandan.fun)
-- `html/dummy/index.html` — Dummy page (spandan.fun/dummy)
+```
+├── frontend/     # React app (Vite)
+├── backend/      # Express API
+└── package.json  # Monorepo config
+```
 
-## Setup
+## Environment
 
-1. Copy nginx config: `sudo cp nginx/spandan.fun.conf /etc/nginx/sites-available/`
-2. Enable site: `sudo ln -sf /etc/nginx/sites-available/spandan.fun.conf /etc/nginx/sites-enabled/`
-3. Copy HTML: `sudo cp -r html/* /var/www/spandan.fun/`
-4. Reload nginx: `sudo systemctl reload nginx`
-
----
-
-Built by Spandan_Astra ⭐
+Copy `.env.example` to `.env` in the backend folder and configure as needed.
