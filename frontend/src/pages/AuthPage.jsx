@@ -7,6 +7,15 @@ import PasswordInput from '../components/PasswordInput'
 import ThemeToggle from '../components/ThemeToggle'
 import useThemeStore from '../stores/themeStore'
 
+// Password requirements for registration
+const PASSWORD_REQUIREMENTS = [
+  { id: 'length', label: 'At least 8 characters', test: (p) => p.length >= 8 },
+  { id: 'upper', label: 'One uppercase letter (A-Z)', test: (p) => /[A-Z]/.test(p) },
+  { id: 'lower', label: 'One lowercase letter (a-z)', test: (p) => /[a-z]/.test(p) },
+  { id: 'digit', label: 'One number (0-9)', test: (p) => /\d/.test(p) },
+  { id: 'special', label: 'One special character (!@#$%^&*)', test: (p) => /[!@#$%^&*()_+\-=\[\]{};:'"\\|,.<>\/?]/.test(p) },
+]
+
 function AuthPage() {
   const navigate = useNavigate()
   const {
@@ -31,6 +40,14 @@ function AuthPage() {
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('')
   const [forgotPasswordMsg, setForgotPasswordMsg] = useState('')
   const [forgotPasswordLoading, setForgotPasswordLoading] = useState(false)
+  const [showPasswordReqs, setShowPasswordReqs] = useState(false)
+
+  const getPasswordReqs = (password) => {
+    return PASSWORD_REQUIREMENTS.map((req) => ({
+      ...req,
+      met: req.test(password),
+    }))
+  }
 
   useEffect(() => {
     if (isAuthenticated && token) {
@@ -43,9 +60,12 @@ function AuthPage() {
       setValidationError('Passwords do not match')
       return false
     }
-    if (formData.password && formData.password.length < 8) {
-      setValidationError('Password must be at least 8 characters')
-      return false
+    if (!isLogin && formData.password) {
+      const failedReqs = PASSWORD_REQUIREMENTS.filter((req) => !req.test(formData.password))
+      if (failedReqs.length > 0) {
+        setValidationError('Password must have: ' + failedReqs.map((r) => r.label).join(', '))
+        return false
+      }
     }
     setValidationError('')
     return true
@@ -513,9 +533,17 @@ function AuthPage() {
                 </label>
                 <PasswordInput
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) => {
+                    setFormData({ ...formData, password: e.target.value })
+                    if (!isLogin) setShowPasswordReqs(true)
+                  }}
                   placeholder="Enter your password"
                   style={{ background: isDark ? '#1e293b' : 'white' }}
+                  showRequirements={!isLogin && showPasswordReqs}
+                  passwordReqs={getPasswordReqs(formData.password)}
+                  onFocus={() => {
+                    if (!isLogin) setShowPasswordReqs(true)
+                  }}
                 />
               </div>
 
